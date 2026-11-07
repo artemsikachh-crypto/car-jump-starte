@@ -44,6 +44,16 @@
     .review-form-box{background:#fff;border:1px solid var(--border-color);border-radius:14px;padding:18px;margin-top:16px}.review-form-title{font-size:17px;font-weight:800;text-align:center;color:var(--secondary-color);margin-bottom:12px}
     .star-input{display:flex;flex-direction:row-reverse;justify-content:center;gap:4px;margin:6px 0 14px}.star-input input{position:absolute;opacity:0;width:1px;height:1px}.star-input label{font-size:34px;line-height:1;color:#d5d9e0;cursor:pointer;transition:color .15s}.star-input input:checked~label,.star-input label:hover,.star-input label:hover~label{color:#ff9500}.star-input input:focus-visible+label{outline:2px solid #ff3b3066;border-radius:4px}
     textarea.form-input{resize:vertical;min-height:96px}.btn-secondary{display:block;width:100%;padding:14px 20px;color:#fff;font:800 15px var(--font-family);text-transform:uppercase;border:0;border-radius:12px;cursor:pointer;background:var(--secondary-color)}.btn-secondary:disabled{opacity:.7;cursor:wait}
+    .qo-overlay{display:none;position:fixed;inset:0;background:#000000b3;z-index:998;align-items:flex-end;justify-content:center}.qo-overlay.open{display:flex}
+    .qo-sheet{background:#fff;width:100%;max-width:480px;border-radius:18px 18px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom));position:relative;animation:qoUp .25s ease-out;max-height:92vh;overflow-y:auto}
+    @keyframes qoUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .qo-close{position:absolute;top:8px;right:12px;background:none;border:0;font-size:28px;line-height:1;color:#888;cursor:pointer;padding:4px 8px}
+    .qo-product{display:flex;gap:12px;align-items:center;margin-bottom:14px}.qo-product img{width:72px;height:72px;object-fit:cover;border-radius:10px;flex-shrink:0}
+    .qo-name{font-size:14px;font-weight:800;color:#1a1a1a;line-height:1.3}.qo-price{margin-top:4px;font-size:20px;font-weight:800;color:var(--primary-color)}.qo-price s{font-size:13px;color:var(--text-muted);font-weight:600;margin-left:6px}
+    .qo-perks{display:flex;justify-content:space-between;gap:6px;font-size:11px;font-weight:700;color:#205c31;background:#eefaf1;border-radius:10px;padding:8px 10px;margin-bottom:6px}
+    .faq-item{border:1px solid var(--border-color);border-radius:12px;margin-bottom:10px;background:#fff}.faq-item summary{list-style:none;cursor:pointer;padding:14px 40px 14px 14px;font-size:14px;font-weight:700;color:#1a1a1a;position:relative}.faq-item summary::-webkit-details-marker{display:none}
+    .faq-item summary::after{content:'+';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--primary-color);font-weight:800}.faq-item[open] summary::after{content:'−'}
+    .faq-item p{padding:0 14px 14px;font-size:13px;color:#4a5568}
     #nl-badge-frame{display:none!important}
   </style>
   <!-- Meta Pixel Code -->
@@ -243,6 +253,17 @@
     </div>
   </section>
 
+  <!-- Питання -->
+  <section class="section-padding">
+    <h2 class="section-title">Часті запитання</h2>
+    <details class="faq-item"><summary>Чи потрібна передоплата?</summary><p>Ні. Ви оплачуєте замовлення при отриманні, після огляду товару на відділенні.</p></details>
+    <details class="faq-item"><summary>Як швидко буде доставка?</summary><p>Відправляємо в день підтвердження замовлення, доставка по Україні займає 1-2 дні.</p></details>
+    <details class="faq-item"><summary>Для яких авто підходить?</summary><p>Для легкових автомобілів з бортовою мережею 12 В. Компресор також підходить для шин мото, велосипедів, м’ячів і надувних виробів.</p></details>
+    <details class="faq-item"><summary>Що, якщо товар не підійде?</summary><p>Ви можете обміняти або повернути товар. Крім того, діє офіційна гарантія виробника 12 місяців.</p></details>
+    <details class="faq-item"><summary>Що буде після заявки?</summary><p>Менеджер зателефонує вам, щоб підтвердити замовлення та уточнити дані доставки. Нічого додатково заповнювати не потрібно.</p></details>
+    <a href="#order" class="btn-main">Замовити без передоплати</a>
+  </section>
+
   <!-- Форма -->
   <section class="section-padding" id="order">
     <h2 class="section-title">Оформіть замовлення зі знижкою</h2>
@@ -276,6 +297,27 @@
 </div>
 
 <div class="sticky-cta" id="stickyCta"><a href="#order" class="btn-main" style="animation:none">Замовити за 2499 грн</a></div>
+
+<div class="qo-overlay" id="quickOrder" role="dialog" aria-modal="true" aria-labelledby="qoTitle">
+  <div class="qo-sheet">
+    <button type="button" class="qo-close" id="qoClose" aria-label="Закрити">&times;</button>
+    <div class="qo-product">
+      <img src="/images/hero.jpg" alt="" width="72" height="72">
+      <div><div class="qo-name" id="qoTitle">Пусковий пристрій 965A з компресором</div><div class="qo-price">2499 грн<s>2999 грн</s></div></div>
+    </div>
+    <div class="qo-perks"><span>✅ Без передоплати</span><span>🚚 1-2 дні</span><span>🛡️ Гарантія 1 рік</span></div>
+    <form id="quickOrderForm" novalidate>
+      <label class="form-label" for="qoName">Ваше ім’я</label>
+      <input class="form-input" type="text" id="qoName" name="name" placeholder="Введіть ім’я" autocomplete="name" required>
+      <label class="form-label" for="qoPhone">Номер телефону</label>
+      <input class="form-input" type="tel" id="qoPhone" name="phone" placeholder="+380 (__) ___-__-__" autocomplete="tel" inputmode="tel" required>
+      <input class="hp" type="text" id="qoWebsite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="btn-main" id="qoSubmit">ЗАМОВИТИ ЗА 2499 ГРН</button>
+      <div class="notice" id="qoNotice" role="status" aria-live="polite"></div>
+      <p class="policy-note">Менеджер передзвонить для підтвердження. Натискаючи кнопку, ви погоджуєтеся з <a onclick="openModal()">політикою конфіденційності</a></p>
+    </form>
+  </div>
+</div>
 
 <div class="modal" id="privacyModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-content">
@@ -321,16 +363,17 @@
     .observe(document.getElementById('order'));
 
   // Автоматичне форматування номеру телефону під +380
-  const phoneInput = document.getElementById('customerPhone');
-  phoneInput.addEventListener('focus', function(e) { if (!e.target.value) e.target.value = '+380'; });
-  phoneInput.addEventListener('input', function(e) {
-    let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
-    if (!x[2]) {
-      e.target.value = x[1] ? '+' + x[1] : '';
-    } else {
-      e.target.value = '+' + x[1] + ' (' + x[2] + ') ' + (x[3] ? x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
-    }
-  });
+  function phoneMask(input) {
+    input.addEventListener('focus', function(e) { if (!e.target.value) e.target.value = '+380'; });
+    input.addEventListener('input', function(e) {
+      let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
+      if (!x[2]) {
+        e.target.value = x[1] ? '+' + x[1] : '';
+      } else {
+        e.target.value = '+' + x[1] + ' (' + x[2] + ') ' + (x[3] ? x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+      }
+    });
+  }
 
   // Modal Policy
   function openModal(){ document.getElementById('privacyModal').style.display='flex'; }
@@ -338,55 +381,84 @@
 
   // Submit Form — заявка йде в Telegram-бот (і, як резерв, у Google-таблицю)
   const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxvMP5vJLP6nFYqAj4oPEokljqwuR8ObLO5kYtLRwOMkQa4xw4VlVmDth8iyWu5q482/exec';
-  const form = document.getElementById('orderFormElement');
-  const notice = document.getElementById('formNotice');
-  const submitButton = document.getElementById('submitButton');
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const name = document.getElementById('customerName').value.trim();
-    const phone = document.getElementById('customerPhone').value.trim();
-    const digits = phone.replace(/\D/g, '');
+  function setupOrderForm(ids) {
+    const form = document.getElementById(ids.form);
+    const nameInput = document.getElementById(ids.name);
+    const phoneInput = document.getElementById(ids.phone);
+    const hpInput = document.getElementById(ids.hp);
+    const notice = document.getElementById(ids.notice);
+    const submitButton = document.getElementById(ids.submit);
+    const label = submitButton.textContent;
+    phoneMask(phoneInput);
 
-    if (name.length < 2 || digits.length < 10) {
-      notice.className = 'notice error';
-      notice.textContent = 'Будь ласка, вкажіть коректне ім’я та номер телефону.';
-      return;
-    }
-    if (document.getElementById('website').value) return;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const digits = phone.replace(/\D/g, '');
 
-    submitButton.disabled = true;
-    submitButton.textContent = 'ОБРОБКА ЗАЯВКИ…';
-    notice.className = 'notice';
-    notice.textContent = '';
+      if (name.length < 2 || digits.length < 10) {
+        notice.className = 'notice error';
+        notice.textContent = 'Будь ласка, вкажіть коректне ім’я та номер телефону.';
+        return;
+      }
+      if (hpInput.value) return;
 
-    // Резервна копія в Google-таблицю (не блокує основну відправку)
-    fetch(ORDER_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-      body: new URLSearchParams({name: name, phone: phone, product: 'Пусковий пристрій 965A з компресором', price: '2499 грн'}).toString()
-    }).catch(() => {});
+      submitButton.disabled = true;
+      submitButton.textContent = 'ОБРОБКА ЗАЯВКИ…';
+      notice.className = 'notice';
+      notice.textContent = '';
 
-    try {
-      const res = await fetch('/api/order', {
+      // Резервна копія в Google-таблицю (не блокує основну відправку)
+      fetch(ORDER_ENDPOINT, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({name: name, phone: phone, website: document.getElementById('website').value})
-      });
-      if (!res.ok) throw new Error('order failed');
-      form.reset();
-      if (window.fbq) fbq('track', 'Lead', {value: 2499, currency: 'UAH'});
-      notice.className = 'notice success';
-      notice.textContent = 'Дякуємо! Ваша заявка успішно прийнята. Менеджер зателефонує вам найближчим часом.';
-    } catch (error) {
-      notice.className = 'notice error';
-      notice.textContent = 'Виникла помилка під час відправлення. Спробуйте ще раз або зателефонуйте нам.';
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'ОФОРМИТИ ЗАМОВЛЕННЯ';
-    }
-  });
+        mode: 'no-cors',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+        body: new URLSearchParams({name: name, phone: phone, product: 'Пусковий пристрій 965A з компресором', price: '2499 грн'}).toString()
+      }).catch(() => {});
+
+      try {
+        const res = await fetch('/api/order', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({name: name, phone: phone, website: hpInput.value})
+        });
+        if (!res.ok) throw new Error('order failed');
+        form.reset();
+        if (window.fbq) fbq('track', 'Lead', {value: 2499, currency: 'UAH'});
+        notice.className = 'notice success';
+        notice.textContent = 'Дякуємо! Ваша заявка успішно прийнята. Менеджер зателефонує вам найближчим часом.';
+      } catch (error) {
+        notice.className = 'notice error';
+        notice.textContent = 'Виникла помилка під час відправлення. Спробуйте ще раз або зателефонуйте нам.';
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = label;
+      }
+    });
+  }
+
+  setupOrderForm({form: 'orderFormElement', name: 'customerName', phone: 'customerPhone', hp: 'website', notice: 'formNotice', submit: 'submitButton'});
+  setupOrderForm({form: 'quickOrderForm', name: 'qoName', phone: 'qoPhone', hp: 'qoWebsite', notice: 'qoNotice', submit: 'qoSubmit'});
+
+  // Швидке замовлення: кнопки «Замовити» відкривають форму одразу, без прокрутки вниз
+  (function(){
+    const overlay = document.getElementById('quickOrder');
+    const open = () => {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('qoNotice').className = 'notice';
+      document.getElementById('qoNotice').textContent = '';
+      if (window.fbq) fbq('track', 'InitiateCheckout', {value: 2499, currency: 'UAH'});
+      setTimeout(() => document.getElementById('qoName').focus(), 250);
+    };
+    const close = () => { overlay.classList.remove('open'); document.body.style.overflow = ''; };
+    document.querySelectorAll('a.btn-main[href="#order"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); open(); }));
+    document.getElementById('qoClose').addEventListener('click', close);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
+  })();
   // Відгуки покупців — завантаження та відправка
   (function(){
     const list = document.getElementById('userReviews');
